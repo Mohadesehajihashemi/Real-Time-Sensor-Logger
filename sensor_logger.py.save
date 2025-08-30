@@ -1,0 +1,23 @@
+
+import random
+import time
+import pymongo
+from pymongo import MongoClient
+
+client = MongoClient("mongodb://localhost:27017/")
+db = client["sensor_data"]
+collection = db["readings"]
+
+def log_sensor_data():
+    while True:
+        data = {
+            "temperature": random.uniform(20, 30),
+            "humidity": random.uniform(40, 60),
+            "timestamp": time.strftime("%Y-%m-%d %H:%M:%S")
+        }
+        collection.insert_one(data)
+        print(f"Logged: {data}")
+        time.sleep(5)
+
+if __name__ == "__main__":
+    log_sensor_data()
